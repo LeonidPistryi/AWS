@@ -1,0 +1,72 @@
+docker build -t maksymblinov/init_db:v1 ./
+docker push maksymblinov/init_db:v1
+rm  ~/.docker/config.json
+kubectl get secrets -n tekton-pipelines
+kubectl describe  secrets git-ssh-key -n tekton-pipelines
+kubectl delete secrets regsecret  -n tekton-pipelines
+kubectl get taskruns
+kubectl delete taskrun --all
+kubectl delete task --all
+kubectl create -f test_taskrun.yaml
+kubectl get serviceaccounts
+kubectl delete  serviceaccounts pipeline
+kubectl apply -f pipelinerun_test.yaml
+kubectl create -f pipelinerun_test.yaml
+kubectl get secrets
+tkn tasks delete --all
+tkn hub install task git-clone && tkn hub install task buildah
+kubectl exec -it mysql-77f9746947-qr2j9 -- mysql -u root -p1234
+kubectl get pods -n ingress-nginx
+kubectl delete deployments --all && kubectl delete services --all && kubectl delete persistentvolumeclaims --all && kubectl delete persistentvolumes --all && kubectl delete storageclasses --all && kubectl delete namespace --all
+
+
+#<---------------->For GCP
+gcloud components install gke-gcloud-auth-plugin
+gcloud container clusters get-credentials maxsprout-clusterk8s --region=us-central1 --project=itspoutproject
+#Forward dashboard to localhost:9097
+kubectl --namespace tekton-pipelines port-forward svc/tekton-dashboard 9097:9097
+
+
+
+#<---------------->For aws
+if win10 then 
+1) install AWSCLI from https://aws.amazon.com/ru/cli/
+2) add to PATH C:\Program Files\Amazon\AWSCLI\
+3) open Powershell 
+    a) aws configure
+    b) AWS Access Key ID [None]: ваш_access_key_id
+       AWS Secret Access Key [None]: ваш_secret_access_key
+       Default region name [None]: us-east-1
+       Default output format [None]: json
+
+aws eks update-kubeconfig --region us-east-1 --name mondyk8awsklas
+#Forward dashboard to localhost:9097
+kubectl --namespace tekton-pipelines port-forward svc/tekton-dashboard 9097:9097
+
+
+docker build -t maksymblinov/init_db_wp:v2 ./ &&
+docker push maksymblinov/init_db_wp:v2
+
+kubectl delete deployments mysql  wordpress && kubectl delete services mysql  wordpress && kubectl delete persistentvolumeclaims --all && kubectl delete persistentvolumes --all && kubectl delete storageclasses --all && kubectl delete namespace --all
+
+
+kubectl delete deployments mysql  wordpress && \
+kubectl delete services mysql  wordpress && \
+kubectl delete PipelineRuns --all  && \
+kubectl delete persistentvolumeclaims --all && \
+kubectl delete persistentvolumes
+
+
+for elb_name in $(aws elb describe-load-balancers --query 'LoadBalancerDescriptions[].LoadBalancerName' --output text); do aws elb delete-load-balancer --load-balancer-name "$elb_name"; done
+
+
+
+  # Удаление Load Balancer
+# for elb_name in $(aws elb describe-load-balancers --query 'LoadBalancerDescriptions[].LoadBalancerName' --output text); 
+#   do aws elb delete-load-balancer --load-balancer-name "$elb_name"; 
+#   done
+
+
+
+
+terraform state list -backend-config="bucket=maximuss3bucket" -backend-config="key=terraform.tfstate"
